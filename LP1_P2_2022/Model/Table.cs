@@ -3,29 +3,30 @@ namespace LP1_P2_2022.Model
     public class Table
     {
         /// <summary>
-        /// Array of spaces representing the table
+        ///     Array of spaces representing the table
         /// </summary>
         private Space[,] _spaces;
 
         /// <summary>
-        /// Table spaces getter property
+        ///     Table spaces getter property
         /// </summary>
-        public  Space[,] Spaces => _spaces;
+        public Space[,] Spaces => _spaces;
 
         /// <summary>
-        /// Table width
+        ///     Table width
         /// </summary>
         /// <value>Width</value>
-        public  int      X      { get; }
+        public int X { get; }
 
         /// <summary>
-        /// Table height
+        ///     Table height
         /// </summary>
         /// <value>Height</value>
-        public  int      Y      { get; }
+        public int Y { get; }
+
 
         /// <summary>
-        /// Table constructor
+        ///     Table constructor
         /// </summary>
         /// <param name="x">Table width</param>
         /// <param name="y">Table height</param>
@@ -37,8 +38,9 @@ namespace LP1_P2_2022.Model
             _spaces = new Space[y, x];
         }
 
+
         /// <summary>
-        /// Sets table given coornidates with given space
+        ///     Sets table given coornidates with given space
         /// </summary>
         /// <param name="x">X position</param>
         /// <param name="y">Y position</param>

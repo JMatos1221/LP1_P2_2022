@@ -1,6 +1,6 @@
-using System;
 using LP1_P2_2022.Model;
 using LP1_P2_2022.View;
+
 namespace LP1_P2_2022.Controller
 {
     public class MainController
@@ -23,8 +23,9 @@ namespace LP1_P2_2022.Controller
         // List of chained actions
         private string actions;
 
+
         /// <summary>
-        /// Controller constructor, receives table instance
+        ///     Controller constructor, receives table instance
         /// </summary>
         /// <param name="table">Game table</param>
         public MainController(Table table)
@@ -32,8 +33,9 @@ namespace LP1_P2_2022.Controller
             _table = table;
         }
 
+
         /// <summary>
-        /// Sets up the game table and players
+        ///     Sets up the game table and players
         /// </summary>
         private void Setup()
         {
@@ -42,7 +44,6 @@ namespace LP1_P2_2022.Controller
 
             // Sets player turn to the first player
             _playerTurn = _players[0];
-
 
             // Fill the table with spaces of type Normal
             for (int i = 0; i < _table.Spaces.GetLength(0); i++)
@@ -53,19 +54,24 @@ namespace LP1_P2_2022.Controller
 
             // Generate Snakes
             GenerateSpace(Space.Snakes, 2, 4, 1, _table.X);
+
             // Generate Ladders
             GenerateSpace(Space.Ladders, 2, 4, 0, _table.X - 1);
+
             // Generate Cobras
             GenerateSpace(Space.Cobra, 1, 1, 2, _table.X);
+
             // Generate Boosts
             GenerateSpace(Space.Boost, 0, 2, 0, _table.X - 1);
+
             // Generate U-Turns
             GenerateSpace(Space.UTurn, 0, 2, 1, _table.X);
         }
 
+
         /// <summary>
-        /// Generate a random amount of a given space type within the
-        /// given amount and row limits
+        ///     Generate a random amount of a given space type within the
+        ///     given amount and row limits
         /// </summary>
         /// <param name="space">Space to generate</param>
         /// <param name="min">Minimum amount that can be generated</param>
@@ -91,8 +97,8 @@ namespace LP1_P2_2022.Controller
                 // Continue the loop if it's not a Normal space or if
                 // it is the first or last space of the board
                 if (_table.Spaces[y, x] != Space.Normal ||
-                    x == 0 && y == 0 ||
-                    x == _table.X - 1 && y == _table.Y - 1)
+                    (x == 0 && y == 0) ||
+                    (x == _table.X - 1 && y == _table.Y - 1))
                     continue;
 
                 // Sets the table space
@@ -101,12 +107,15 @@ namespace LP1_P2_2022.Controller
             }
         }
 
+
         /// <summary>
-        /// /// Gameloop, runs endlessly until the player quits the game
+        ///     /// Gameloop, runs endlessly until the player quits the game
         /// </summary>
-        /// <param name="view">View object that outputs data and receives input
-        /// from the user</param>
-        public void CoreLoop(MainView view)
+        /// <param name="view">
+        ///     View object that outputs data and receives input
+        ///     from the user
+        /// </param>
+        public void CoreLoop(IView view)
         {
             bool menu = true;
             bool game = false;
@@ -162,8 +171,9 @@ namespace LP1_P2_2022.Controller
             } while (menu);
         }
 
+
         /// <summary>
-        /// Player movement with random die value
+        ///     Player movement with random die value
         /// </summary>
         /// <param name="player">Player to move (current player's turn)</param>
         private void MovementDie(Player player)
@@ -183,8 +193,9 @@ namespace LP1_P2_2022.Controller
             SpaceAction(player);
         }
 
+
         /// <summary>
-        /// Clamps the player's position, making sure he's placed on the board
+        ///     Clamps the player's position, making sure he's placed on the board
         /// </summary>
         /// <param name="player">Player whose position needs clamping</param>
         private void ClampPlayer(Player player)
@@ -192,6 +203,7 @@ namespace LP1_P2_2022.Controller
             // While player is not on the board
             while (player.Position[0] > _table.X - 1 ||
                    player.Position[0] < 0)
+
                 // If player exceeds the last space (winning space)
                 if (player.Position[1] == _table.Y - 1 &&
                     player.Position[0] > 0)
@@ -200,6 +212,7 @@ namespace LP1_P2_2022.Controller
                         _table.X - 1 -
                         (player.Position[0] - (_table.X - 1));
                 }
+
                 // If player needs to go to the lower row
                 else if (player.Position[0] < 0)
                 {
@@ -219,8 +232,9 @@ namespace LP1_P2_2022.Controller
                 }
         }
 
+
         /// <summary>
-        /// Trigger special space action
+        ///     Trigger special space action
         /// </summary>
         /// <param name="target">Player to apply the action to</param>
         private void SpaceAction(Player target)
@@ -230,7 +244,7 @@ namespace LP1_P2_2022.Controller
                 _players[0].Position[1] == _players[1].Position[1])
             {
                 actions +=
-                   $"{_table.Spaces[target.Position[1], target.Position[0]]} ";
+                    $"{_table.Spaces[target.Position[1], target.Position[0]]} ";
 
                 // Changes target to opponent
                 target = _playerTurn.Appearance == _players[0].Appearance
@@ -240,8 +254,9 @@ namespace LP1_P2_2022.Controller
                 // Opponent moves backwards 1 position
                 target.Position[0] -= 1;
 
-                actions += $"location; Player {target.Appearance} was there and " +
-                   "was moved back 1 position to a ";
+                actions +=
+                    $"location; Player {target.Appearance} was there and " +
+                    "was moved back 1 position to a ";
             }
 
             // Clamp target, to make sure he's on board
@@ -314,8 +329,9 @@ namespace LP1_P2_2022.Controller
             }
         }
 
+
         /// <summary>
-        /// Snakes action, moves the player to the lower row
+        ///     Snakes action, moves the player to the lower row
         /// </summary>
         /// <param name="target">Player to apply the action to</param>
         private void SnakesAction(Player target)
@@ -324,8 +340,9 @@ namespace LP1_P2_2022.Controller
             target.Position[0] = _table.X - 1 - target.Position[0];
         }
 
+
         /// <summary>
-        /// Ladder action, moves the player to the upper row
+        ///     Ladder action, moves the player to the upper row
         /// </summary>
         /// <param name="target">Player to apply the action to</param>
         private void LaddersAction(Player target)
@@ -334,8 +351,9 @@ namespace LP1_P2_2022.Controller
             target.Position[0] = _table.X - 1 - target.Position[0];
         }
 
+
         /// <summary>
-        /// Cobra action, moves the player to the first table position (0, 0)
+        ///     Cobra action, moves the player to the first table position (0, 0)
         /// </summary>
         /// <param name="target">Player to apply the action to</param>
         private void CobraAction(Player target)
@@ -343,8 +361,9 @@ namespace LP1_P2_2022.Controller
             target.Position = new[] { 0, 0 };
         }
 
+
         /// <summary>
-        /// Boost action, moves the player 2 spaces forward
+        ///     Boost action, moves the player 2 spaces forward
         /// </summary>
         /// <param name="target">Player to apply the action to</param>
         private void BoostAction(Player target)
@@ -352,8 +371,9 @@ namespace LP1_P2_2022.Controller
             target.Position[0] += 2;
         }
 
+
         /// <summary>
-        /// U-Turn action, moves the player 2 spaces backwards
+        ///     U-Turn action, moves the player 2 spaces backwards
         /// </summary>
         /// <param name="target">Player to apply the action to</param>
         private void UTurnAction(Player target)
@@ -361,8 +381,9 @@ namespace LP1_P2_2022.Controller
             target.Position[0] -= 2;
         }
 
+
         /// <summary>
-        /// Checks if the game as ended, if not, changes player turn
+        ///     Checks if the game as ended, if not, changes player turn
         /// </summary>
         /// <returns> true if game is still running, false if not</returns>
         private bool CheckGameEnd()
@@ -378,8 +399,9 @@ namespace LP1_P2_2022.Controller
             return false;
         }
 
+
         /// <summary>
-        /// Changes player turn based on _playerTurn variable
+        ///     Changes player turn based on _playerTurn variable
         /// </summary>
         private void ChangeTurn()
         {

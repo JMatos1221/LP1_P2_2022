@@ -2,10 +2,10 @@ using LP1_P2_2022.Model;
 
 namespace LP1_P2_2022.View
 {
-    public class MainView
+    public class MainView : IView
     {
         /// <summary>
-        /// Prints the menu options
+        ///     Prints the menu options
         /// </summary>
         public void PrintMenu()
         {
@@ -16,8 +16,9 @@ namespace LP1_P2_2022.View
             Console.WriteLine();
         }
 
+
         /// <summary>
-        /// Prints the game rules and waits for input to return to menu
+        ///     Prints the game rules and waits for input to return to menu
         /// </summary>
         public void PrintRules()
         {
@@ -25,26 +26,34 @@ namespace LP1_P2_2022.View
 
             Console.WriteLine("  Game Rules");
             Console.WriteLine("  ----------\n");
+
             Console.WriteLine("  Both players start off the board, " +
-            "and alternate turns playing.");
+                              "and alternate turns playing.");
+
             Console.WriteLine("  The first player to reach the " +
-            "last board space, wins the game.");
+                              "last board space, wins the game.");
+
             Console.WriteLine("  The player advances on the board " +
-            "by rolling a D6 die.");
+                              "by rolling a D6 die.");
+
             Console.WriteLine("  If the player lands on a special location, " +
-            "it activates the following action:\n");
+                              "it activates the following action:\n");
+
             Console.WriteLine("\tSnakes: Player goes one space below.");
             Console.WriteLine("\tLaders: Player goes one space above.");
+
             Console.WriteLine("\tCobra: Player go to the first " +
-            "space of the table.");
+                              "space of the table.");
+
             Console.WriteLine("\tBoost: Player go foward two spaces.");
             Console.WriteLine("\tU-turn: Player go back two spaces.");
 
             Console.ReadKey();
         }
 
+
         /// <summary>
-        /// Prints the game table
+        ///     Prints the game table
         /// </summary>
         /// <param name="table">Game table</param>
         /// <param name="players">Players</param>
@@ -78,12 +87,14 @@ namespace LP1_P2_2022.View
             Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine(actions);
+
             // Prints the table colors description
             Description();
         }
 
+
         /// <summary>
-        /// Draws the players on the table
+        ///     Draws the players on the table
         /// </summary>
         /// <param name="table">Game table</param>
         /// <param name="players">Players</param>
@@ -132,8 +143,9 @@ namespace LP1_P2_2022.View
             Console.SetCursorPosition(cursorPos[0], cursorPos[1]);
         }
 
+
         /// <summary>
-        /// Prints the table colors description
+        ///     Prints the table colors description
         /// </summary>
         private void Description()
         {
@@ -153,8 +165,9 @@ namespace LP1_P2_2022.View
             Console.ResetColor();
         }
 
+
         /// <summary>
-        /// Gets the color of a given space
+        ///     Gets the color of a given space
         /// </summary>
         /// <param name="space">Space to get the color from</param>
         /// <returns></returns>
@@ -171,8 +184,9 @@ namespace LP1_P2_2022.View
             };
         }
 
+
         /// <summary>
-        /// Prints an error message
+        ///     Prints an error message
         /// </summary>
         /// <param name="errorName">Error type</param>
         public void PrintError(string errorName)
@@ -192,8 +206,9 @@ namespace LP1_P2_2022.View
             Console.ReadKey();
         }
 
+
         /// <summary>
-        /// Prints the game end
+        ///     Prints the game end
         /// </summary>
         /// <param name="winner">Game winner</param>
         public void PrintGameEnd(Player winner)
@@ -202,8 +217,9 @@ namespace LP1_P2_2022.View
             Console.ReadKey();
         }
 
+
         /// <summary>
-        /// Reads the user input
+        ///     Reads the user input
         /// </summary>
         /// <returns>User input in lowercase and without white spaces</returns>
         public string ReadInput()
