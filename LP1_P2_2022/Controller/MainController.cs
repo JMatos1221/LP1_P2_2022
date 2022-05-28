@@ -66,8 +66,10 @@ namespace LP1_P2_2022.Controller
 
             // Generate U-Turns
             GenerateSpace(Space.UTurn, 0, 2, 1, _table.X);
+
             // Generate ExtraDie
             GenerateSpace(Space.ExtraDie, 1, 1, 0, _table.X);
+
             // Generate CheatDie
             GenerateSpace(Space.CheatDie, 1, 1, 0, _table.X);
         }
@@ -162,10 +164,35 @@ namespace LP1_P2_2022.Controller
                 // Game loop
                 while (game)
                 {
-                    view.ReadInput();
+                    string input = view.ReadInput();
 
-                    MovementDie(_playerTurn);
-                    game = CheckGameEnd();
+                    switch (input)
+                    {
+                        case "":
+                            MovementDie(_playerTurn);
+                            game = CheckGameEnd();
+
+                            break;
+
+                        case "extra":
+                            MovementDie(_playerTurn, true);
+                            game = CheckGameEnd();
+
+                            break;
+
+                        case "cheat":
+
+                            int amount = int.Parse(view.ReadInput());
+                            MovementDie(_playerTurn, false, amount);
+                            game = CheckGameEnd();
+
+                            break;
+
+                        default:
+                            view.PrintError("input");
+
+                            break;
+                    }
 
                     view.PrintTable(_table, _players,
                                     actions);
@@ -180,11 +207,21 @@ namespace LP1_P2_2022.Controller
         ///     Player movement with random die value
         /// </summary>
         /// <param name="player">Player to move (current player's turn)</param>
-        private void MovementDie(Player player)
+        private void MovementDie(Player player, bool extra = false,
+                                 int amount = 0)
         {
             actions = string.Empty;
 
-            dieValue = _rnd.Next(1, 7);
+            if (amount > 0)
+            {
+                dieValue = amount;
+            }
+            else
+            {
+                dieValue = _rnd.Next(1, 7);
+
+                if (extra) dieValue += _rnd.Next(1, 7);
+            }
 
             player.Position[0] += dieValue;
 
@@ -279,21 +316,22 @@ namespace LP1_P2_2022.Controller
 
                     return;
                 }
-                else if (currentSpace == Space.ExtraDie)
+
+                if (currentSpace == Space.ExtraDie)
                 {
                     _playerTurn.ExtraDie = true;
                     actions += "Extra Die special location.";
 
                     return;
                 }
-                else if (currentSpace == Space.CheatDie)
+
+                if (currentSpace == Space.CheatDie)
                 {
                     _playerTurn.CheatDie = true;
                     actions += "Cheat Die special location.";
 
                     return;
                 }
-
 
                 // Select special action to apply to
                 // the player based on space type
@@ -340,7 +378,6 @@ namespace LP1_P2_2022.Controller
                             "Moved back 2 positions to a ";
 
                         break;
-
                 }
 
                 // Recursive call to trigger new space action, not called if

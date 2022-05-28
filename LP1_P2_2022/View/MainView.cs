@@ -200,6 +200,7 @@ namespace LP1_P2_2022.View
             {
                 "menu" =>
                     "Not a valid menu option, use the numeric options. [1] [2] [3]",
+                "input" => "Invalid input. [*Enter*] [Extra] [Cheat]",
                 _ => "Error!"
             };
 
