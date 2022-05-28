@@ -279,6 +279,21 @@ namespace LP1_P2_2022.Controller
 
                     return;
                 }
+                else if (currentSpace == Space.ExtraDie)
+                {
+                    _playerTurn.ExtraDie = true;
+                    actions += "Extra Die special location.";
+
+                    return;
+                }
+                else if (currentSpace == Space.CheatDie)
+                {
+                    _playerTurn.CheatDie = true;
+                    actions += "Cheat Die special location.";
+
+                    return;
+                }
+
 
                 // Select special action to apply to
                 // the player based on space type
@@ -325,6 +340,7 @@ namespace LP1_P2_2022.Controller
                             "Moved back 2 positions to a ";
 
                         break;
+
                 }
 
                 // Recursive call to trigger new space action, not called if
