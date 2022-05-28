@@ -180,6 +180,8 @@ namespace LP1_P2_2022.View
                 Space.Cobra => ConsoleColor.Green,
                 Space.Boost => ConsoleColor.Cyan,
                 Space.UTurn => ConsoleColor.DarkMagenta,
+                Space.ExtraDie => ConsoleColor.Yellow,
+                Space.CheatDie => ConsoleColor.DarkYellow,
                 _ => ConsoleColor.Black
             };
         }

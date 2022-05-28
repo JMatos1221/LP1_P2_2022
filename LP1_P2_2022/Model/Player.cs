@@ -13,6 +13,12 @@ namespace LP1_P2_2022.Model
         private int[] _position;
 
         /// <summary>
+        /// Special Dies
+        /// </summary>
+        private bool extraDie;
+        private bool cheatDie;
+
+        /// <summary>
         ///     Player appearance getter property
         /// </summary>
         public char Appearance => _appearance;
@@ -27,6 +33,17 @@ namespace LP1_P2_2022.Model
             set => _position = value;
         }
 
+        public bool ExtraDie
+        {
+            get => extraDie;
+            set { extraDie = value; }
+        }
+        public bool CheatDie
+        {
+            get => cheatDie;
+            set { cheatDie = value; }
+        }
+
 
         /// <summary>
         ///     Player constructor
@@ -36,6 +53,8 @@ namespace LP1_P2_2022.Model
         {
             _appearance = appearance;
             _position = new[] { -1, 0 };
+            extraDie = false;
+            cheatDie = false;
         }
     }
 }

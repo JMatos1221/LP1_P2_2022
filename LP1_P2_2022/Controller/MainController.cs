@@ -66,6 +66,10 @@ namespace LP1_P2_2022.Controller
 
             // Generate U-Turns
             GenerateSpace(Space.UTurn, 0, 2, 1, _table.X);
+            // Generate ExtraDie
+            GenerateSpace(Space.ExtraDie, 1, 1, 0, _table.X);
+            // Generate CheatDie
+            GenerateSpace(Space.CheatDie, 1, 1, 0, _table.X);
         }
 
 
