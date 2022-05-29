@@ -10,9 +10,10 @@ namespace LP1_P2_2022.View
         public void PrintMenu()
         {
             Console.Clear();
-            Console.WriteLine("[1] Play");
-            Console.WriteLine("[2] Rules");
-            Console.WriteLine("[3] Quit");
+            Console.WriteLine("[1] New Game");
+            Console.WriteLine("[2] Continue Game");
+            Console.WriteLine("[3] Rules");
+            Console.WriteLine("[4] Quit");
             Console.WriteLine();
         }
 

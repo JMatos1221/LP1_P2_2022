@@ -37,15 +37,19 @@ namespace LP1_P2_2022.Controller
         /// <summary>
         ///     Sets up the game table and players
         /// </summary>
-        private void Setup()
+        private void Setup(bool newGame = true)
         {
             // Create players
             _players = new[] { new Player('A'), new Player('B') };
 
             // Sets player turn to the first player
-            _playerTurn = _players[0];
 
             _rnd = new Random();
+
+            if (!newGame)
+                return;
+
+            _playerTurn = _players[0];
 
             bool infinite = true;
 
@@ -176,11 +180,24 @@ namespace LP1_P2_2022.Controller
                         break;
 
                     case "2":
-                        view.PrintRules();
+                        Setup(false);
+
+                        SaveManager saveManager = new SaveManager();
+
+                        saveManager.Load(_table, _players, out _playerTurn);
+
+                        view.PrintTable(_table, _playerTurn, _players, "");
+
+                        game = true;
 
                         break;
 
                     case "3":
+                        view.PrintRules();
+
+                        break;
+
+                    case "4":
                         menu = false;
 
                         break;
