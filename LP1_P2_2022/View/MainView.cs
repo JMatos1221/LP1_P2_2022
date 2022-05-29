@@ -58,7 +58,8 @@ namespace LP1_P2_2022.View
         /// <param name="table">Game table</param>
         /// <param name="players">Players</param>
         /// <param name="actions">Actions that occurred</param>
-        public void PrintTable(Table table, Player[] players, string actions)
+        public void PrintTable(Table table, Player playerTurn,
+         Player[] players, string actions)
         {
             Console.Clear();
 
@@ -90,6 +91,9 @@ namespace LP1_P2_2022.View
 
             // Prints the table colors description
             Description();
+            Console.WriteLine($"Turn: {playerTurn.Appearance} | " +
+            $"Extra Die: {(playerTurn.ExtraDie ? "Has" : "Doesn't have")} | " +
+            $"Cheat Die: {(playerTurn.CheatDie ? "Has" : "Doesn't have")}");
         }
 
 
@@ -200,7 +204,8 @@ namespace LP1_P2_2022.View
             {
                 "menu" =>
                     "Not a valid menu option, use the numeric options. [1] [2] [3]",
-                "input" => "Invalid input. [*Enter*] [Extra] [Cheat]",
+                "input" => "Invalid input.",
+                "extra" => "You don't own an Extra Die",
                 _ => "Error!"
             };
 

@@ -6,7 +6,8 @@ public interface IView
 {
     void PrintMenu();
     void PrintRules();
-    void PrintTable(Table table, Player[] players, string actions);
+    void PrintTable(Table table, Player playerTurn,
+    Player[] players, string actions);
     void PrintError(string errorName);
     void PrintGameEnd(Player winner);
     string ReadInput();

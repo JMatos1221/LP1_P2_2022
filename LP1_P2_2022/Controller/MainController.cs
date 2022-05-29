@@ -139,7 +139,7 @@ namespace LP1_P2_2022.Controller
                     case "1":
                         Setup();
 
-                        view.PrintTable(_table, _players, "");
+                        view.PrintTable(_table, _playerTurn, _players, "");
 
                         game = true;
 
@@ -169,21 +169,19 @@ namespace LP1_P2_2022.Controller
                     switch (input)
                     {
                         case "":
-                            MovementDie(_playerTurn);
+                            MovementDie(_playerTurn, view);
                             game = CheckGameEnd();
 
                             break;
 
                         case "extra":
-                            MovementDie(_playerTurn, true);
-                            game = CheckGameEnd();
-
-                            break;
-
-                        case "cheat":
-
-                            int amount = int.Parse(view.ReadInput());
-                            MovementDie(_playerTurn, false, amount);
+                            if (!_playerTurn.ExtraDie)
+                            {
+                                view.PrintError("extra");
+                                view.ReadInput();
+                                break;
+                            }
+                            MovementDie(_playerTurn, view, true);
                             game = CheckGameEnd();
 
                             break;
@@ -194,8 +192,7 @@ namespace LP1_P2_2022.Controller
                             break;
                     }
 
-                    view.PrintTable(_table, _players,
-                                    actions);
+                    view.PrintTable(_table, _playerTurn, _players, actions);
 
                     if (!game) view.PrintGameEnd(_playerTurn);
                 }
@@ -207,20 +204,46 @@ namespace LP1_P2_2022.Controller
         ///     Player movement with random die value
         /// </summary>
         /// <param name="player">Player to move (current player's turn)</param>
-        private void MovementDie(Player player, bool extra = false,
-                                 int amount = 0)
+        private void MovementDie(Player player, IView view, bool extra = false)
         {
             actions = string.Empty;
 
-            if (amount > 0)
-            {
-                dieValue = amount;
-            }
-            else
-            {
-                dieValue = _rnd.Next(1, 7);
+            dieValue = _rnd.Next(1, 7);
 
-                if (extra) dieValue += _rnd.Next(1, 7);
+            if (extra)
+            {
+                dieValue += _rnd.Next(1, 7);
+                _playerTurn.ExtraDie = false;
+            }
+            else if (_playerTurn.CheatDie)
+            {
+                while (true)
+                {
+                    Console.Write($"Die {dieValue}. Use cheat die? " +
+                    "Press Enter to skip, insert number to use: ");
+
+                    string input = view.ReadInput();
+
+                    if (input == string.Empty)
+                        break;
+                    else
+                        try
+                        {
+                            int aux = int.Parse(input);
+                            if (aux < 1 || aux > 6)
+                                throw new IndexOutOfRangeException();
+
+                            dieValue = aux;
+
+                            _playerTurn.CheatDie = false;
+
+                            break;
+                        }
+                        catch
+                        {
+                            view.PrintError("input");
+                        }
+                }
             }
 
             player.Position[0] += dieValue;
