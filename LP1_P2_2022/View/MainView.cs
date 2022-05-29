@@ -50,15 +50,18 @@ namespace LP1_P2_2022.View
             Console.WriteLine("\tU-turn: Player goes back two spaces.");
 
             Console.WriteLine("\tExtra Die: Player is given the option to" +
-                              " roll 2 dies once. To use write extra before" +
+                              " roll 2 dies once. To use type <extra> before" +
                               " rolling for turn.");
 
             Console.WriteLine("\tCheat Die: Player is given the option to" +
-                              "  reroll the die once, in future rolls.\n");
+                              " reroll the die once, in future rolls.\n");
 
             Console.WriteLine("  Players can only have up to one cheat and" +
                               " extra die at a time.");
 
+            Console.WriteLine("  Players can save the game by typing <save>" +
+                              " before rolling for turn.");
+                            
             Console.ReadKey();
         }
 

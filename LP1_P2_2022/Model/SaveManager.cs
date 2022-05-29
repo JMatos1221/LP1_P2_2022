@@ -27,8 +27,10 @@ public class SaveManager
             }
 
             // Save players' dies
-            sw.WriteLine($"{players[0].ExtraDie},{players[0].CheatDie},");
-            sw.WriteLine($"{players[1].ExtraDie},{players[1].CheatDie},");
+            sw.WriteLine($"{players[0].Position[0]},{players[0].Position[1]}," +
+            $"{players[0].ExtraDie},{players[0].CheatDie},");
+            sw.WriteLine($"{players[1].Position[0]},{players[1].Position[1]}," +
+            $"{players[1].ExtraDie},{players[1].CheatDie},");
 
             // Save current player's turn
             sw.WriteLine(playerTurn.Appearance);
@@ -75,17 +77,20 @@ public class SaveManager
             // Read player special dies
             line = sr.ReadLine();
 
-            string[] dies = line.Split(",", StringSplitOptions.RemoveEmptyEntries);
-
-            players[0].ExtraDie = bool.Parse(dies[0]);
-            players[0].CheatDie = bool.Parse(dies[1]);
+            string[] playerData = line.Split(",", StringSplitOptions.RemoveEmptyEntries);
+            players[0].Position[0] = int.Parse(playerData[0]);
+            players[0].Position[1] = int.Parse(playerData[1]);
+            players[0].ExtraDie = bool.Parse(playerData[2]);
+            players[0].CheatDie = bool.Parse(playerData[3]);
 
             line = sr.ReadLine();
 
-            dies = line.Split(",", StringSplitOptions.RemoveEmptyEntries);
+            playerData = line.Split(",", StringSplitOptions.RemoveEmptyEntries);
 
-            players[1].ExtraDie = bool.Parse(dies[0]);
-            players[1].CheatDie = bool.Parse(dies[1]);
+            players[1].Position[0] = int.Parse(playerData[0]);
+            players[1].Position[1] = int.Parse(playerData[1]);
+            players[1].ExtraDie = bool.Parse(playerData[2]);
+            players[1].CheatDie = bool.Parse(playerData[3]);
 
             // Load current player turn
             line = sr.ReadLine().Trim();
