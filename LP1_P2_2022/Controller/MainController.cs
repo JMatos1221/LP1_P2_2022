@@ -45,33 +45,65 @@ namespace LP1_P2_2022.Controller
             // Sets player turn to the first player
             _playerTurn = _players[0];
 
-            // Fill the table with spaces of type Normal
-            for (int i = 0; i < _table.Spaces.GetLength(0); i++)
-                for (int j = 0; j < _table.Spaces.GetLength(1); j++)
-                    _table.SetSpace(i, j, Space.Normal);
+
+
 
             _rnd = new Random();
 
-            // Generate Snakes
-            GenerateSpace(Space.Snakes, 2, 4, 1, _table.X);
+            bool infinite = true;
 
-            // Generate Ladders
-            GenerateSpace(Space.Ladders, 2, 4, 0, _table.X - 1);
+            while (infinite)
+            {
+                // Fill the table with spaces of type Normal
+                for (int i = 0; i < _table.Spaces.GetLength(0); i++)
+                    for (int j = 0; j < _table.Spaces.GetLength(1); j++)
+                        _table.SetSpace(i, j, Space.Normal);
 
-            // Generate Cobras
-            GenerateSpace(Space.Cobra, 1, 1, 2, _table.X);
+                // Generate Snakes
+                GenerateSpace(Space.Snakes, 2, 4, 1, _table.X);
 
-            // Generate Boosts
-            GenerateSpace(Space.Boost, 0, 2, 0, _table.X - 1);
+                // Generate Ladders
+                GenerateSpace(Space.Ladders, 2, 4, 0, _table.X - 1);
 
-            // Generate U-Turns
-            GenerateSpace(Space.UTurn, 0, 2, 1, _table.X);
+                // Generate Cobras
+                GenerateSpace(Space.Cobra, 1, 1, 2, _table.X);
 
-            // Generate ExtraDie
-            GenerateSpace(Space.ExtraDie, 1, 1, 0, _table.X);
+                // Generate Boosts
+                GenerateSpace(Space.Boost, 0, 2, 0, _table.X - 1);
 
-            // Generate CheatDie
-            GenerateSpace(Space.CheatDie, 1, 1, 0, _table.X);
+                // Generate U-Turns
+                GenerateSpace(Space.UTurn, 0, 2, 1, _table.X);
+
+                // Generate ExtraDie
+                GenerateSpace(Space.ExtraDie, 1, 1, 0, _table.X);
+
+                // Generate CheatDie
+                GenerateSpace(Space.CheatDie, 1, 1, 0, _table.X);
+
+                infinite = IsInfinite();
+            }
+        }
+
+        private bool IsInfinite()
+        {
+            for (int i = 0; i < _table.Spaces.GetLength(0); i++)
+                for (int j = 0; j < _table.Spaces.GetLength(1); j++)
+                {
+                    if (_table.Spaces[i, j] == Space.Snakes &&
+                     _table.Spaces[i - 1, 4 - j] == Space.Ladders)
+                        return true;
+
+                    else if (_table.Spaces[i, j] == Space.Boost)
+                    {
+                        if (j > 2 && _table.Spaces[i + 1, j - 3] == Space.UTurn)
+                            return true;
+
+                        else if (j <= 2 && _table.Spaces[i, j + 2] == Space.UTurn)
+                            return true;
+                    }
+                }
+
+            return false;
         }
 
 
