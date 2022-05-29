@@ -45,9 +45,6 @@ namespace LP1_P2_2022.Controller
             // Sets player turn to the first player
             _playerTurn = _players[0];
 
-
-
-
             _rnd = new Random();
 
             bool infinite = true;
@@ -84,24 +81,25 @@ namespace LP1_P2_2022.Controller
             }
         }
 
+
         private bool IsInfinite()
         {
             for (int i = 0; i < _table.Spaces.GetLength(0); i++)
                 for (int j = 0; j < _table.Spaces.GetLength(1); j++)
-                {
                     if (_table.Spaces[i, j] == Space.Snakes &&
-                     _table.Spaces[i - 1, 4 - j] == Space.Ladders)
+                        _table.Spaces[i - 1, 4 - j] == Space.Ladders)
+                    {
                         return true;
+                    }
 
                     else if (_table.Spaces[i, j] == Space.Boost)
                     {
                         if (j > 2 && _table.Spaces[i + 1, j - 3] == Space.UTurn)
                             return true;
 
-                        else if (j <= 2 && _table.Spaces[i, j + 2] == Space.UTurn)
+                        if (j <= 2 && _table.Spaces[i, j + 2] == Space.UTurn)
                             return true;
                     }
-                }
 
             return false;
         }
@@ -211,10 +209,18 @@ namespace LP1_P2_2022.Controller
                             {
                                 view.PrintError("extra");
                                 view.ReadInput();
+
                                 break;
                             }
+
                             MovementDie(_playerTurn, view, true);
                             game = CheckGameEnd();
+
+                            break;
+
+                        case "save":
+                            SaveManager saveManager = new();
+                            saveManager.Save(_table, _players, _playerTurn);
 
                             break;
 
@@ -252,29 +258,30 @@ namespace LP1_P2_2022.Controller
                 while (true)
                 {
                     Console.Write($"Die {dieValue}. Use cheat die? " +
-                    "Press Enter to skip, insert number to use: ");
+                                  "Press Enter to skip, insert number to use: ");
 
                     string input = view.ReadInput();
 
                     if (input == string.Empty)
                         break;
-                    else
-                        try
-                        {
-                            int aux = int.Parse(input);
-                            if (aux < 1 || aux > 6)
-                                throw new IndexOutOfRangeException();
 
-                            dieValue = aux;
+                    try
+                    {
+                        int aux = int.Parse(input);
 
-                            _playerTurn.CheatDie = false;
+                        if (aux < 1 || aux > 6)
+                            throw new IndexOutOfRangeException();
 
-                            break;
-                        }
-                        catch
-                        {
-                            view.PrintError("input");
-                        }
+                        dieValue = aux;
+
+                        _playerTurn.CheatDie = false;
+
+                        break;
+                    }
+                    catch
+                    {
+                        view.PrintError("input");
+                    }
                 }
             }
 

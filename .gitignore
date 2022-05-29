@@ -263,3 +263,6 @@ __pycache__/
 
 # Dropbox
 .dropbox.attr
+
+# Game Save
+game.save
