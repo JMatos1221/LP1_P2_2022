@@ -85,7 +85,10 @@ namespace LP1_P2_2022.Controller
             }
         }
 
-
+        /// <summary>
+        /// Checks if the game has a direct infinite loop
+        /// </summary>
+        /// <returns>true if infinite, false if not</returns>
         private bool IsInfinite()
         {
             for (int i = 0; i < _table.Spaces.GetLength(0); i++)
@@ -170,6 +173,7 @@ namespace LP1_P2_2022.Controller
                 // Switch case to read the selected option
                 switch (option)
                 {
+                    // New Game
                     case "1":
                         Setup();
 
@@ -179,12 +183,21 @@ namespace LP1_P2_2022.Controller
 
                         break;
 
+                    // Continue Game
                     case "2":
                         Setup(false);
 
                         SaveManager saveManager = new SaveManager();
 
-                        saveManager.Load(_table, _players, out _playerTurn);
+                        if (!saveManager.Load(_table, _players,
+                        out _playerTurn))
+                        {
+                            Console.WriteLine("No saved game found. " +
+                            "Generating new game.");
+                            Console.ReadLine();
+
+                            Setup();
+                        }
 
                         view.PrintTable(_table, _playerTurn, _players, "");
 
@@ -192,11 +205,13 @@ namespace LP1_P2_2022.Controller
 
                         break;
 
+                    // Print Rules
                     case "3":
                         view.PrintRules();
 
                         break;
 
+                    // Quit
                     case "4":
                         menu = false;
 
@@ -215,12 +230,14 @@ namespace LP1_P2_2022.Controller
 
                     switch (input)
                     {
+                        // Roll die
                         case "":
                             MovementDie(_playerTurn, view);
                             game = CheckGameEnd();
 
                             break;
 
+                        // Use extra die
                         case "extra":
                             if (!_playerTurn.ExtraDie)
                             {
@@ -235,6 +252,7 @@ namespace LP1_P2_2022.Controller
 
                             break;
 
+                        // Save Game
                         case "save":
                             SaveManager saveManager = new();
                             saveManager.Save(_table, _players, _playerTurn);
@@ -265,6 +283,7 @@ namespace LP1_P2_2022.Controller
 
             dieValue = _rnd.Next(1, 7);
 
+            // If extra die was used
             if (extra)
             {
                 dieValue += _rnd.Next(1, 7);
@@ -272,6 +291,7 @@ namespace LP1_P2_2022.Controller
             }
             else if (_playerTurn.CheatDie)
             {
+                // Ask if wanna use cheat die
                 while (true)
                 {
                     Console.Write($"Die {dieValue}. Use cheat die? " +
@@ -382,13 +402,13 @@ namespace LP1_P2_2022.Controller
             // Clamp target, to make sure he's on board
             ClampPlayer(target);
 
-            // If targe is on  board
+            // If target is on the board
             if (target.Position[0] >= 0)
             {
                 Space currentSpace =
                     _table.Spaces[target.Position[1], target.Position[0]];
 
-                // Trigger action on target
+
                 if (currentSpace == Space.Normal)
                 {
                     actions += "Normal location.\n";
@@ -396,6 +416,7 @@ namespace LP1_P2_2022.Controller
                     return;
                 }
 
+                // Give player extra die
                 if (currentSpace == Space.ExtraDie)
                 {
                     _playerTurn.ExtraDie = true;
@@ -404,6 +425,7 @@ namespace LP1_P2_2022.Controller
                     return;
                 }
 
+                // Give player cheat die
                 if (currentSpace == Space.CheatDie)
                 {
                     _playerTurn.CheatDie = true;

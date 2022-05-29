@@ -43,11 +43,21 @@ namespace LP1_P2_2022.View
             Console.WriteLine("\tSnakes: Player goes one space below.");
             Console.WriteLine("\tLaders: Player goes one space above.");
 
-            Console.WriteLine("\tCobra: Player go to the first " +
+            Console.WriteLine("\tCobra: Player goes to the first " +
                               "space of the table.");
 
-            Console.WriteLine("\tBoost: Player go foward two spaces.");
-            Console.WriteLine("\tU-turn: Player go back two spaces.");
+            Console.WriteLine("\tBoost: Player goes forward two spaces.");
+            Console.WriteLine("\tU-turn: Player goes back two spaces.");
+
+            Console.WriteLine("\tExtra Die: Player is given the option to" +
+                              " roll 2 dies once. To use write extra before" +
+                              " rolling for turn.");
+
+            Console.WriteLine("\tCheat Die: Player is given the option to" +
+                              "  reroll the die once, in future rolls.\n");
+
+            Console.WriteLine("  Players can only have up to one cheat and" +
+                              " extra die at a time.");
 
             Console.ReadKey();
         }
